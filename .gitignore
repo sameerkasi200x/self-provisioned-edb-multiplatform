@@ -1,0 +1,6 @@
+# Random password file
+pg_passwd
+
+# ansible-playbook Retry file 
+
+main.retry

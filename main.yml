@@ -1,8 +1,9 @@
-- import_playbook: digital-ocean-server-setup-playbook.yml
-  when: (provider=='digitalocean')
 
-- import_playbook: digital-ocean-server-setup-playbook.yml
-  when: (provider='=aws')
+- when: (provider=='digitalocean')
+  import_playbook: digital-ocean-server-setup-playbook.yml
+
+- when: (provider=='aws')
+  import_playbook: ec2-server-setup-playbook.yml
 
 
 - name: Setup EDB Repository

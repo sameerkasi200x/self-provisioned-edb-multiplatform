@@ -1,5 +1,5 @@
 # BEGIN ANSIBLE MANAGED BLOCK
-ansible_host: 139.59.108.11
+ansible_host: 139.59.112.216
 ansible_user: root
 host_region: sgp1
 host_os: CentOS
