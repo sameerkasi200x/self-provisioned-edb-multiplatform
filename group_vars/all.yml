@@ -1,1 +1,2 @@
 provider: aws
+cred_file: /home/ansible/credentials.ini

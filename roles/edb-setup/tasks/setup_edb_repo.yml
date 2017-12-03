@@ -1,11 +1,25 @@
-    - name: Download the repo file
-      get_url:
-        dest: /tmp
-        url: http://yum.enterprisedb.com/edbrepos/edb-repo-latest.noarch.rpm
+    - name: Add EDB Repo
+      yum_repository: 
+        name: edb
+        baseurl: "{{ lookup('ini', 'repo.url section=edb_yum_repo file={{ cred_file }}') }}"
+        enabled: yes
+        state: present
+        description: EnterpriseDB Repos $releasever - $basearch
+        gpgcheck: no
+        username: "{{ lookup('ini', 'repo.user section=edb_yum_repo file={{ cred_file }}') }}" 
+        password: "{{ lookup('ini', 'repo.password section=edb_yum_repo file={{ cred_file }}') }}"
+      become: true
+
+    - name: Refresh yum meta
+      command: yum update meta
+      become: true
 
     - name: Install the repository rpm
-      command: yum install -y /tmp/edb-repo-latest.noarch.rpm
+      yum: 
+        name: edb-repo
+        state: present
       become: true
+
     - name: Install Enterprise Linux Repo
       yum:
         name: epel-release
@@ -16,7 +30,7 @@
       replace:
         path: '{{ edb_repo_file }}'
         regexp: '<username>:<password>'
-        replace: "{{ lookup('ini', 'repo.user section=edb_yum_repo file=/home/ansible/credentials.ini') }}:{{ lookup('ini', 'repo.password section=edb_yum_repo file=/home/ansible/credentials.ini') }}"
+        replace: "{{ lookup('ini', 'repo.user section=edb_yum_repo file={{ cred_file }}') }}:{{ lookup('ini', 'repo.password section=edb_yum_repo file={{ cred_file }}') }}"
       become: true
 
     - name: Enable repos
