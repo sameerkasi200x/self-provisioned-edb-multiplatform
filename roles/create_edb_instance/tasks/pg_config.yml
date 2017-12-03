@@ -1,0 +1,11 @@
+    - name: Setup the service file
+      ini_file:
+        path: '{{ PGDATA }}/postgresql.conf'
+        create: yes
+        section: null
+        option: '{{ item.parameter }}'
+        value: '{{ item.value }}'
+        no_extra_spaces: no
+      with_items: '{{ edb_parameters }}'
+      become: true
+

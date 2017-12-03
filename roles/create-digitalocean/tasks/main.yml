@@ -1,0 +1,42 @@
+---
+# tasks file for create-digitalocean
+
+    - name: Create an Digital Ocean Droplet
+      digital_ocean:
+        state: present
+        command: droplet
+        name: "{{ droplet_name }}"
+        api_token:  "{{ lookup('ini', 'api_key section=digital_ocean file={{ cred_file }}') }}"
+        size_id: "{{ droplet_size }}"
+        image_id: {{ image_id }}
+        private_networking: yes
+        unique_name: yes
+        region_id: "{{ region }}"
+        wait: yes
+        ssh_key_ids: "{{ ssh_key }}"
+      register: my_server
+
+
+    - name: Add variables for the newly created instance to appropriate file
+      blockinfile:
+        path: 'host_vars/{{ server }}.yml'
+        create: yes
+        content: |
+              ansible_host: {{ my_server.droplet.ip_address }}
+              ansible_user: {{ droplet_user  }}
+              host_region: {{ region }}
+              host_os: {{ image_os }}
+              os_version: {{ image_os_version }}
+
+    - name: Add the new created instance to inventory
+      lineinfile:
+        path: {{ inventory_file_path  }}
+        line: '{{ server }}'
+        state: present
+    - name: Wait for a while before confirming the server is ready
+      vars:
+        ansible_connection: local
+      wait_for: 
+        port: 22
+        host: '{{ my_server.droplet.ip_address }}'
+        delay: 20

@@ -1,0 +1,15 @@
+       - name: Check if firewalld is present or not
+         package:
+           name: firewalld
+         check_mode: true
+         register: firewalld_status
+
+       - name: Add firewall rule for EDB port
+         firewalld:
+           port: '{{ PGPORT }}'
+           permanent: true
+           state: enabled
+         become: true
+         when: not firewalld_status.changed
+
+

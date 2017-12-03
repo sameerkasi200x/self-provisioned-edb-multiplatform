@@ -1,0 +1,19 @@
+- name: Setup a random postgres password
+  hosts: pg_primary
+  tasks:
+    - name: Remove the existing file
+      local_action:
+        module: file
+        path: '{{ RANDOM_PASSWD_FILE }}'
+        state: absent
+      
+- name: Create EDB Instance
+  hosts: pg_primary
+  vars:
+    SERVICE_NAME: '{{ PGSERVICE  }}'
+  roles:
+    - create_edb_instance
+    - setup_pg_service
+  tasks:
+    - include_tasks: add-python-dependencies.yml
+    - include_tasks: prepare-primary-for-repl.yml 

@@ -1,0 +1,23 @@
+---
+# tasks file for setup_pg_service
+
+
+    - name: Setup the service file
+      ini_file:
+        path: '/etc/systemd/system/{{ SERVICE_NAME }}.service'
+        create: yes
+        section: '{{ item.section }}'
+        option: '{{ item.option }}'
+        value: '{{ item.value }}'
+        no_extra_spaces: yes
+      with_items: '{{ systemd_conf_setting }}'
+      become: true
+
+    - name: Put the service in desired state
+      systemd: 
+        name: '{{ SERVICE_NAME }}.service'
+        daemon_reload: yes
+        enabled: '{{ SERVICE_ENABLED }}'
+        state: '{{ SERVICE_DESIRED_STATE }}'
+      become: true
+

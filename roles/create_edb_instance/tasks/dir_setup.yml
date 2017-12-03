@@ -1,0 +1,27 @@
+       - name: Remove the directories if they exist
+         file:
+           path: '{{ item }}'
+           state: absent
+         with_items:
+           - '{{ PGWAL_DIR }}'
+           - '{{ PGDATA }}'
+         become: true
+
+       - name: Add data directory
+         file:
+           path: '{{ PGDATA }}'
+           state: directory
+           group: '{{ PGOWNER }}'
+           owner: '{{ PGOWNER }}'
+           mode: 0700
+         become: true
+
+       - name: Add WAL directory if it is not in data directory
+         file:
+           path: '{{ PGWAL_DIR }}'
+           state: directory
+           group: '{{ PGOWNER }}'
+           owner: '{{ PGOWNER }}'
+           mode: 0700
+         become: true
+         when: ('{{ PGWAL_DIR | basename }}'!='{{ PGWAL_DIR | relpath(PGDATA) }}')

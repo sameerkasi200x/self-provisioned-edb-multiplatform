@@ -1,0 +1,26 @@
+---
+# defaults file for create_edb_instance
+PGDATA: /pg/data
+EDBHOME: '/usr/edb/as{{ version }}/bin'
+PGWAL_DIR: '{{ PGDATA }}/pg_wal'
+PG_PASSWD_FILE: /tmp/passwd_file
+PGOWNER: postgres
+INITDB_PARAM: "-k"
+PGPORT: 5432
+create_instance: true
+edb_parameters:
+  - { parameter:  'wal_level', value: 'hot_standby' }
+  - { parameter:  'max_wal_senders', value: '{{ standby_count + 5 }}' }
+  - { parameter:  'logging_collector', value: 'on' }
+  - { parameter:  'wal_keep_segments', value: '256' }
+  - { parameter:  'wal_sender_timeout', value: '30s' }
+  - { parameter:  'hot_standby', value: 'on' }
+  - { parameter:  'max_standby_streaming_delay', value: '10s' }
+  - { parameter:  'wal_receiver_status_interval', value: '10s' }
+  - { parameter:  'hot_standby_feedback', value: 'on' }
+  - { parameter:  'wal_receiver_timeout', value: '60s' } 
+  - { parameter:  'port', value: '{{ PGPORT }}' }
+  - { parameter:  'listen_addresses', value: '''*''' }
+  - { parameter:  'shared_buffers', value: '{{ (ansible_memtotal_mb * 0.15)| round | int }}MB' }
+  - { parameter:  'effective_cache_size', value: '{{ (ansible_memtotal_mb * 0.65) | round |int }}MB' }
+

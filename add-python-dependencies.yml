@@ -1,0 +1,20 @@
+    - name: install Python and setup tool
+      yum:
+        name: '{{ item }}'
+        state: present
+      become: true
+      with_items:
+        - python
+        - python-setuptools
+        - python-devel
+    - name: install pip
+      easy_install:
+        name: pip
+      become: true
+
+    - name: install Python dependencies
+      pip:
+        name: psycopg2
+        state: present
+      become: true
+

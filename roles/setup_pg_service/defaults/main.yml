@@ -1,0 +1,27 @@
+---
+# defaults file for setup_pg_service
+SERVICE_PRESTEP: /usr/edb/as10/bin/edb-as-10-check-db-dir ${PGDATA}
+PGHOME: /usr/edb/as10
+PG_DESCRIPTION: EnterpriseDB Postgres Advanced Server
+PGOWNER: postgres
+PGDATA: /pg/data
+SERVICE_NAME: edb-postgres-as-10
+SERVICE_ENABLED: yes
+SERVICE_DESIRED_STATE: started 
+systemd_conf_setting:
+  - {section: 'Unit', option:  'Description', value: '{{ PG_DESCRIPTION }} {{ version }}' }
+  - {section: 'Unit', option:  'After', value: 'syslog.target network.target'}
+  - {section: 'Service', option: 'Type', value: 'notify' }
+  - {section: 'Service', option: 'User', value: '{{ PGOWNER }}' }
+  - {section: 'Service', option: 'Group', value: '{{ PGOWNER }}' }
+  - {section: 'Service', option: 'Environment=PGDATA', value: '{{ PGDATA }}' }
+  - {section: 'Service', option: 'PIDFILE', value: '{{ PGDATA }}/postmaster.pid'}
+  - {section: 'Service', option: 'Type', value: 'forking' }
+  - {section: 'Service', option: 'OOMScoreAdjust', value: '-1000' }
+  - {section: 'Service', option: 'ExecStart', value: '{{ PGHOME }}/bin/pg_ctl -D ${PGDATA} start' }
+  - {section: 'Service', option: 'ExecStop', value: '{{ PGHOME }}/bin/pg_ctl -D ${PGDATA} -m fast stop' }
+  - {section: 'Service', option: 'ExecReload', value: '{{ PGHOME }}/bin/pg_ctl -D ${PGDATA} reload' }
+  - {section: 'Service', option: 'KillMode', value: 'mixed' }
+  - {section: 'Service', option: 'KillSignal', value: 'SIGINT' }
+  - {section: 'Service', option: 'TimeoutSec', value: '300' }
+  - {section: 'Install', option: 'WantedBy', value: 'multi-user.target' }

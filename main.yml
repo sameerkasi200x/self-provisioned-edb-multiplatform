@@ -1,0 +1,10 @@
+- import_playbook: server-setup-playbook.yml
+
+- name: Setup EDB Repository
+  hosts: pg_servers
+  roles:
+    - edb-setup
+
+- import_playbook: primary-instance-playbook.yml
+- import_playbook: standby-setup-playbook.yml
+

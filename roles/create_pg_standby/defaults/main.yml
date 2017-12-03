@@ -1,0 +1,9 @@
+---
+# defaults file for create_edb_instance
+PGDATA: /pg/data
+PGHOME: '/usr/edb/as{{ version }}'
+PGWAL_DIR: '{{ PGDATA }}/pg_wal'
+PGOWNER: postgres
+PGPORT: 5432
+replication_user: repl_user
+

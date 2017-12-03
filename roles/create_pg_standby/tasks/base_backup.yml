@@ -1,0 +1,4 @@
+       - name: Take a backup to setup standby
+         command: '{{ PGHOME }}/bin/pg_basebackup {{ PGWAL_DIR_OPT | default(None) }} -D {{ PGDATA }} --no-slot -X s -R -U {{ replication_user }} -h {{ primary_server }} -p {{ PGPORT }}' 
+         become: true
+         become_user: postgres

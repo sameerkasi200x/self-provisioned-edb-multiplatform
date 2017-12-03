@@ -1,0 +1,19 @@
+---
+# tasks file for create_pg_standby
+       - include_tasks: dir_setup.yml
+
+       ### Only one of the below two tasks will be executed
+       ## Make sure to edit both of them while making changes
+       ##########################################################################
+
+       - include_tasks: base_backup.yml
+         vars:
+           PGWAL_DIR_OPT: ' --waldir {{ PGWAL_DIR }} '
+         when: ('{{ PGWAL_DIR | basename }}'!='{{ PGWAL_DIR | relpath(PGDATA) }}')
+
+       ################################## OR #####################################
+
+       - include_tasks: base_backup.yml
+         when: ('{{ PGWAL_DIR | basename }}'=='{{ PGWAL_DIR | relpath(PGDATA) }}')
+
+       ##########################################################################

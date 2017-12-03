@@ -1,0 +1,9 @@
+---
+# tasks file for create_edb_instance
+       - include_tasks: os_user_setup.yml
+       - include_tasks: firewall.yml
+       - include_tasks: dir_setup.yml
+       - include_tasks: create_instance.yml
+         when: (create_instance==true)
+       - include_tasks: pg_config.yml
+         when: (create_instance==true) 

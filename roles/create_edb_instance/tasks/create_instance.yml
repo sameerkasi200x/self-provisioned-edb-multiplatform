@@ -1,0 +1,24 @@
+       - include_tasks: rm_passwd_file.yml
+       - name: Add password to Password file
+         lineinfile:
+           line: "{{ PG_PASSWORD  | default(lookup('password', '{{ RANDOM_PASSWD_FILE }}') ) }}"
+           path: '{{ PG_PASSWD_FILE }}'
+           create: yes
+               
+       ### Only one of the below two tasks will be executed
+       ## Make sure to edit both of them while making changes
+       ##########################################################################
+
+       - include_tasks: initdb.yml
+         vars:
+           PGWAL_DIR_OPT: ' -X {{ PGWAL_DIR }} '
+         when: ('{{ PGWAL_DIR | basename }}'!='{{ PGWAL_DIR | relpath(PGDATA) }}')
+
+       ################################## OR #####################################
+
+       - include_tasks: initdb.yml
+         when: ('{{ PGWAL_DIR | basename }}'=='{{ PGWAL_DIR | relpath(PGDATA) }}')
+
+       ##########################################################################
+
+       - include_tasks: rm_passwd_file.yml

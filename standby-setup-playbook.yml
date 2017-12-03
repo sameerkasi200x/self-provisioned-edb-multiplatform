@@ -1,0 +1,15 @@
+- name: Setup Standby Servers
+  hosts: standby
+  tasks:
+    - import_role:
+        name: create_edb_instance
+      when: (standby_count > 0)
+    - import_role:
+        name: create_pg_standby
+      when: (standby_count > 0)
+      vars: 
+        primary_server: "{{ lookup('csvfile', 'ansible_host file=host_vars/pg_primary.yml delimiter=:') }}"
+    - import_role:
+        name: setup_pg_service
+      when: (standby_count > 0)
+

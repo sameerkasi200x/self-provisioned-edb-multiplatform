@@ -1,0 +1,6 @@
+       - name: Install EDB
+         command: '{{ EDBHOME }}/initdb  --pwfile={{ PG_PASSWD_FILE }} {{ PGWAL_DIR_OPT | default(None) }} --pgdata {{ PGDATA }} --auth-host=md5 --auth=trust {{ INITDB_PARAM | default ("-k") }}'
+         become_user: '{{ PGOWNER }}'
+         become_method: sudo
+         become: true
+         register: initdb_output

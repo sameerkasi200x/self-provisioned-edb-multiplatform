@@ -1,0 +1,5 @@
+       - name: Remove the password file
+         file:
+           path: '{{ PG_PASSWD_FILE }}'
+           state: absent
+         become: true

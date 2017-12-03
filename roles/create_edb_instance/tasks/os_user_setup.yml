@@ -1,0 +1,19 @@
+
+       - name: Add EDB Group
+         group:
+           name: '{{ PGOWNER }}'
+           state: present
+         become: true
+
+       - name: Add EDB Users
+         user:
+           name: '{{ PGOWNER }}'
+           state: present
+         become: true
+       - name: Check if firewalld is present or not
+         package:
+           name: firewalld
+         check_mode: true
+         register: firewalld_status
+
+
