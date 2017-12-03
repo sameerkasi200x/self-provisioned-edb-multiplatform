@@ -1,14 +1,16 @@
-pg_primary
-pg_standby0
+pg-primary
+pg-standby1
+pg-standby2
+
 
 [primary]
-pg_primary
+pg-primary
 
 [standby]
-pg_standby1
-pg_standby2
+pg-standby1
+pg-standby2
 
 [pg_servers]
-pg_primary
-pg_standby1
-pg_standby2
+pg-primary
+pg-standby1
+pg-standby2

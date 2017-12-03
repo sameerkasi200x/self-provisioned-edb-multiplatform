@@ -2,7 +2,7 @@
   hosts: localhost
   connection: local
   vars:
-    server: pg_primary
+    server: pg-primary
   roles:
     - create-ec2
 
@@ -15,7 +15,7 @@
       include_role:
         name: create-ec2
       vars:
-        server: 'pg_standby{{ standby_id }}'
+        server: 'pg-standby{{ standby_id }}'
       with_sequence: count='{{ standby_count }}'
       loop_control:
         loop_var: standby_id

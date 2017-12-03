@@ -1,0 +1,30 @@
+galaxy_info:
+  author: Sameer Kumar
+  description: Solutions Architect
+  company: Ashnik Pte Ltd
+  license: license (GPLv2, CC-BY, etc)
+  min_ansible_version: 2.3
+  platforms:
+    - name: Amazon
+      versions:
+        - all
+    - name: EL
+      versions:
+        - all
+    - name: Ubuntu
+      version:
+        - all
+    - name: Debian
+      version:
+        - all
+  galaxy_tags: 
+    - EC2
+    - Launch EC2
+    - Create EC2
+    - Spinup EC2
+    - AWS EC2
+    - AWS Instance
+    - EC2 Instance
+    - Amazon EC2
+    - AWS
+    - Cloud

@@ -1,9 +1,0 @@
-# BEGIN ANSIBLE MANAGED BLOCK
-ansible_host: 172.100.0.89
-ansible_user: centos
-host_region: ap-southeast-1
-instance_type: t2.small
-host_az: ap-southeast-1a
-host_os: CentOS
-os_version: 7
-# END ANSIBLE MANAGED BLOCK

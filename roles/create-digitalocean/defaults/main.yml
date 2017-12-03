@@ -2,10 +2,10 @@
 # defaults file for create-digitalocean
 
 cred_file: /home/ansible/credentials.ini
-image_id: centos-7
+image_id: centos-7-x64
 droplet_size: 2gb
 region: sgp1
-ssh_key: ssh key to be added to the server
+ssh_key: 6459309
 image_os: CentOS
 image_os_version: 7
 droplet_user: root

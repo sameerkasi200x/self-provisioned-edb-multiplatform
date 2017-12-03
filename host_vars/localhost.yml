@@ -1,5 +1,2 @@
-ami: ami-1fbad07c
-sec_group: sg-77602e11
-region: ap-southeast-1
-subnet: subnet-9d05befa
 standby_count: 2
+provider: digitalocean

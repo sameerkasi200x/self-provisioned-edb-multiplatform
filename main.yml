@@ -1,4 +1,9 @@
-- import_playbook: server-setup-playbook.yml
+- import_playbook: digital-ocean-server-setup-playbook.yml
+  when: (provider=='digitalocean')
+
+- import_playbook: digital-ocean-server-setup-playbook.yml
+  when: (provider='=aws')
+
 
 - name: Setup EDB Repository
   hosts: pg_servers

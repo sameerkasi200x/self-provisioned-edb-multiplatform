@@ -8,7 +8,7 @@
         name: create_pg_standby
       when: (standby_count > 0)
       vars: 
-        primary_server: "{{ lookup('csvfile', 'ansible_host file=host_vars/pg_primary.yml delimiter=:') }}"
+        primary_server: "{{ lookup('csvfile', 'ansible_host file=host_vars/pg-primary.yml delimiter=:') }}"
     - import_role:
         name: setup_pg_service
       when: (standby_count > 0)

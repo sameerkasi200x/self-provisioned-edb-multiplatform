@@ -1,0 +1,40 @@
+- name: Create a Digital Ocean Droplet for Primary
+  hosts: localhost
+  connection: local
+  vars:
+    server: pg-primary
+  roles:
+    - create-digitalocean
+
+- name: Use create-digitalocean Role to create multiple Standby Instance
+  hosts: localhost
+  connection: local
+  vars:
+  tasks:
+    - name: Create Digital Ocean droplet for Standby
+      include_role:
+        name: create-digitalocean
+      vars:
+        server: 'pg-standby{{ standby_id }}'
+      with_sequence: count='{{ standby_count }}'
+      loop_control:
+        loop_var: standby_id
+
+- name: Remove the host list file if it exists
+  hosts: localhost
+  connection: local
+  tasks:
+    - name: Remove the file
+      file:
+        path: 'host_vars/server_list.txt'
+        state: absent
+- name: Get IP of each server
+  hosts: pg_servers
+  tasks:
+    - name: Add the list of standby servers to a file
+      local_action:
+        module: lineinfile
+        path: 'host_vars/server_list.txt'
+        create: yes
+        line: '{{ ansible_host }}'
+        state: present
