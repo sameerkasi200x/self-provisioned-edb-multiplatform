@@ -1,0 +1,13 @@
+###### BEGIN Setup Summary
+A new Postgres Replica Set has been created with 2 Standby.
+EDB Postgres Version: 10
+The EDB Postgres Service Can be managed with edb-postgres-as-10
+The setup has been done in aws
+Super user: postgres 
+Password: RXLooCzXR4mG2CyPDHaK
+###### END Setup Summary
+###### BEGIN Server List
+Server IP: 172.100.0.63 PostgreSQL Port: 5432 Cloud Provider: aws OS User: centos
+Server IP: 172.100.0.17 PostgreSQL Port: 5432 Cloud Provider: aws OS User: centos
+Server IP: 172.100.0.82 PostgreSQL Port: 5432 Cloud Provider: aws OS User: centos
+###### END Server List

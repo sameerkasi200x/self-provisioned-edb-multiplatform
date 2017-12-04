@@ -5,12 +5,14 @@
 - when: (provider=='aws')
   import_playbook: ec2-server-setup-playbook.yml
 
+- import_playbook: add_servers_to_list.yml
 
 - name: Setup EDB Repository
-  hosts: pg_servers
+  hosts: pg-*
   roles:
     - edb-setup
 
 - import_playbook: primary-instance-playbook.yml
 - import_playbook: standby-setup-playbook.yml
 
+- import_playbook: send_email.yml

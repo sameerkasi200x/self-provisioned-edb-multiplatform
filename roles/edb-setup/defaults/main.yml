@@ -1,2 +1,3 @@
 ---
 # defaults file for edb-setup
+edb_repo_file: /etc/yum.repos.d/edb.repo

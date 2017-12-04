@@ -19,22 +19,3 @@
       with_sequence: count='{{ standby_count }}'
       loop_control:
         loop_var: standby_id
-
-- name: Remove the host list file if it exists
-  hosts: localhost
-  connection: local
-  tasks:
-    - name: Remove the file
-      file:
-        path: 'host_vars/server_list.txt'
-        state: absent
-- name: Get IP of each server
-  hosts: pg_servers
-  tasks:
-    - name: Add the list of standby servers to a file
-      local_action:
-        module: lineinfile
-        path: 'host_vars/server_list.txt'
-        create: yes
-        line: '{{ ansible_host }}'
-        state: present

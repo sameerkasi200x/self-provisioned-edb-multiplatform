@@ -1,16 +1,1 @@
-pg-primary
-pg-standby1
-pg-standby2
-
-
-[primary]
-pg-primary
-
-[standby]
-pg-standby1
-pg-standby2
-
-[pg_servers]
-pg-primary
-pg-standby1
-pg-standby2
+localhost

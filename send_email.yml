@@ -1,0 +1,69 @@
+- name: Add the Summary File
+  hosts: localhost
+  connection: local
+  tasks:
+    - name: Remove the existing summary file
+      file: 
+        path: 'files/setup_summary.txt'
+        state: absent
+    - name: Add summary file
+      blockinfile:
+        path: 'files/setup_summary.txt'
+        create: yes
+        marker: '###### {mark} Setup Summary'
+        block: |
+               A new Postgres Replica Set has been created with {{ standby_count }} Standby.
+               EDB Postgres Version: {{ version }}
+               The EDB Postgres Service Can be managed with {{ PGSERVICE }}
+               The setup has been done in {{ provider }}
+               Super user: postgres 
+               Password: {{ lookup('file', '{{ RANDOM_PASSWD_FILE }}') }}
+        state: present
+
+- name: Add new header
+  hosts: localhost
+  connection: local
+  tasks:
+    - name: Add summary file
+      lineinfile:
+        path: 'files/setup_summary.txt'
+        create: yes
+        line: "###### BEGIN Server List"
+        state: present   
+  
+- name: Server Summary
+  hosts: pg-*
+  connection: local
+  tasks:
+    - name: Add the list of servers to summary file
+      local_action:
+        module: lineinfile
+        path: 'files/setup_summary.txt'
+        create: yes
+        line: "Server IP: {{ hostvars[inventory_hostname]['ansible_host'] }} PostgreSQL Port: {{ PGPORT }} Cloud Provider: {{ provider }} OS User: {{ hostvars[inventory_hostname]['ansible_user'] }}"
+        state: present
+
+- name: Add new header
+  hosts: localhost
+  connection: local
+  tasks:
+    - name: Add summary file
+      lineinfile:
+        path: 'files/setup_summary.txt'
+        create: yes
+        line: "###### END Server List"
+        state: present
+
+- name: Send email
+  hosts: localhost
+  connection: local
+  tasks:
+    - name: Sending file details in the email body
+      mail:
+        host: "{{ lookup('ini', 'smtp_host section=smtp_details file={{ cred_file }}') }}"
+        port: "{{ lookup('ini', 'smtp_port section=smtp_details file={{ cred_file }}') }}" 
+        username: "{{ lookup('ini', 'smtp_username section=smtp_details file={{ cred_file }}') }}"
+        password: "{{ lookup('ini', 'smtp_password section=smtp_details file={{ cred_file }}') }}"
+        to: "{{ lookup('ini', 'to_address section=smtp_details file={{ cred_file }}') }}"
+        subject: Setup Information
+        body: "{{ lookup('file', 'files/setup_summary.txt') }}"

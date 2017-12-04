@@ -1,5 +1,5 @@
 - name: Setup Standby Servers
-  hosts: standby
+  hosts: pg-standby*
   tasks:
     - import_role:
         name: create_edb_instance

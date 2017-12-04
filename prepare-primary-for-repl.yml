@@ -17,7 +17,7 @@
         state: present
       become: true
       with_lines:
-        - cat host_vars/server_list.txt
+        - cat files/server_list.txt
 
     - name: Reload configuration
       systemd:

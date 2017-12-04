@@ -5,6 +5,7 @@
         enabled: yes
         state: present
         description: EnterpriseDB Repos $releasever - $basearch
+        file: edb_package_repo
         gpgcheck: no
         username: "{{ lookup('ini', 'repo.user section=edb_yum_repo file={{ cred_file }}') }}" 
         password: "{{ lookup('ini', 'repo.password section=edb_yum_repo file={{ cred_file }}') }}"

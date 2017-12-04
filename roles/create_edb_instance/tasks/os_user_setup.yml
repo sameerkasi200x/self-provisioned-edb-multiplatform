@@ -10,10 +10,3 @@
            name: '{{ PGOWNER }}'
            state: present
          become: true
-       - name: Check if firewalld is present or not
-         package:
-           name: firewalld
-         check_mode: true
-         register: firewalld_status
-
-

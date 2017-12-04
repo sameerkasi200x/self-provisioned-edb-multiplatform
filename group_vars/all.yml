@@ -1,2 +1,26 @@
-provider: aws
+provider: digitalocean
 cred_file: /home/ansible/credentials.ini
+app_name: my_db
+inventory_file_path: /etc/ansible/hosts
+INITDB_PARAM: "-k --no-redwood-compat"
+PGDATA: /pg/data
+replication_user: repl_user
+RANDOM_PASSWD_FILE: files/pg_passwd
+replication_user: repl_user
+version: 10
+PGSERVICE: 'edb-postgres-as-{{ version }}'
+standby_count: 2
+PGOWNER: postgres
+PGPORT: 5432
+UNIX_SOCKET_DIR: /tmp
+repo_list:
+  - ppas94
+  - ppas95
+  - edbas96
+  - edbas10
+  - enterprisedb-tools
+  - enterprisedb-dependencies
+  - enterprisedb-xdb60
+  - edb-repos
+edb_repo_file: /etc/yum.repos.d/edb.repo
+

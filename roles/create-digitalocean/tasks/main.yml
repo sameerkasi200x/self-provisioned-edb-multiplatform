@@ -16,7 +16,6 @@
         ssh_key_ids: "{{ ssh_key }}"
       register: my_server
 
-
     - name: Add variables for the newly created instance to appropriate file
       blockinfile:
         path: 'host_vars/{{ server }}.yml'
@@ -31,12 +30,22 @@
     - name: Add the new created instance to inventory
       lineinfile:
         path: "{{ inventory_file_path  }}"
-        line: '{{ server }}'
+        line: "{{ app_name | default('digital_ocean') }}-{{ server }} ansible_host={{ my_server.droplet.ip_address }} ansible_user={{ droplet_user  }} host_os={{ image_os }} os_version={{ image_os_version }}"
         state: present
+
     - name: Wait for a while before confirming the server is ready
       vars:
         ansible_connection: local
       wait_for: 
         port: 22
-        host: '{{ my_server.droplet.ip_address }}'
+        host: "{{ my_server.droplet.ip_address }}"
         delay: 20
+
+    - name: "Add newly created host {{ my_server.droplet.ip_address }} to inventory"
+      add_host:
+        hostname: "{{ server }}"
+        ansible_host: "{{ my_server.droplet.ip_address }}"
+        ansible_user: "{{ droplet_user }}"
+        host_region: "{{ region }}"
+        host_os: "{{ image_os }}"
+        os_version: "{{ image_os_version }}"
