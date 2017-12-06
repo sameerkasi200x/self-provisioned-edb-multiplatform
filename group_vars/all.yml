@@ -1,4 +1,6 @@
 provider: digitalocean
+sec_group: sg-77602e11
+subnet: subnet-9d05befa
 cred_file: /home/ansible/credentials.ini
 app_name: my_db
 inventory_file_path: /etc/ansible/hosts
@@ -23,4 +25,3 @@ repo_list:
   - enterprisedb-xdb60
   - edb-repos
 edb_repo_file: /etc/yum.repos.d/edb.repo
-
