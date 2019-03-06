@@ -19,6 +19,13 @@
       with_lines:
         - cat files/server_list.txt
 
+    - name: Add pg_hba entry to Primary
+      lineinfile:
+        path: '{{ PGDATA }}/pg_hba.conf'
+        line: 'host replication {{ replication_user }} 172.100.0.0/16 trust'
+        state: present
+      become: true
+
     - name: Reload configuration
       systemd:
         name: '{{ PGSERVICE }}'

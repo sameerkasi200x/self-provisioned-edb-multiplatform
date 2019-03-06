@@ -64,6 +64,9 @@
         port: "{{ lookup('ini', 'smtp_port section=smtp_details file={{ cred_file }}') }}" 
         username: "{{ lookup('ini', 'smtp_username section=smtp_details file={{ cred_file }}') }}"
         password: "{{ lookup('ini', 'smtp_password section=smtp_details file={{ cred_file }}') }}"
+        secure: always
         to: "{{ lookup('ini', 'to_address section=smtp_details file={{ cred_file }}') }}"
         subject: Setup Information
+        #timeout: 60
+        sender: "{{ lookup('ini', 'smtp_username section=smtp_details file={{ cred_file }}') }}@gmail.com"
         body: "{{ lookup('file', 'files/setup_summary.txt') }}"

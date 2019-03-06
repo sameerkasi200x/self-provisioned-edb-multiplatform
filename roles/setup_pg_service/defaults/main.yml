@@ -1,11 +1,11 @@
 ---
 # defaults file for setup_pg_service
 SERVICE_PRESTEP: /usr/edb/as10/bin/edb-as-10-check-db-dir ${PGDATA}
-PGHOME: /usr/edb/as10
+PGHOME: /usr/edb/as{{ version }}
 PG_DESCRIPTION: EnterpriseDB Postgres Advanced Server
 PGOWNER: postgres
 PGDATA: /pg/data
-SERVICE_NAME: edb-postgres-as-10
+SERVICE_NAME: edb-postgres-as-{{ version }}
 SERVICE_ENABLED: yes
 SERVICE_DESIRED_STATE: started 
 systemd_conf_setting:
